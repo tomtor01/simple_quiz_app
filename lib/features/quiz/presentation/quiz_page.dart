@@ -1,21 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_quiz_app/features/quiz/app/quiz_service.dart';
+import '../data/quiz_repository.dart';
 import '../domain/quiz_state.dart';
 
-class QuizPage extends ConsumerWidget {
-  const QuizPage({super.key});
+class QuizPage extends ConsumerStatefulWidget {
+  const QuizPage({super.key, required this.quiz});
+
+  final Quiz quiz;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<QuizPage> createState() => _QuizPageState();
+}
+
+class _QuizPageState extends ConsumerState<QuizPage> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(quizServiceProvider.notifier).loadQuestions(widget.quiz.id);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final quizState = ref.watch(quizServiceProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Quiz o stolicach świata')),
+      appBar: AppBar(title: Text(widget.quiz.title)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: quizState.isCompleted ? _buildResultScreen(context, ref, quizState) : _buildQuizScreen(context, ref, quizState),
+          child: quizState.isCompleted
+              ? _buildResultScreen(context, ref, quizState)
+              : _buildQuizScreen(context, ref, quizState),
         ),
       ),
     );
@@ -40,30 +56,34 @@ class QuizPage extends ConsumerWidget {
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 children: [
-                  Text(currentQuestion.text, style: Theme.of(context).textTheme.headlineSmall, textAlign: TextAlign.center),
+                  Text(
+                    currentQuestion.text,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(height: 40),
 
                   Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () => _answerQuestion(ref, true),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 64.0),
-                          backgroundColor: Colors.green[100],
+                    children: List.generate(currentQuestion.answers.length, (index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => _answerQuestion(ref, index),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              backgroundColor: Colors.blue[100],
+                            ),
+                            child: Text(
+                              currentQuestion.answers[index],
+                              style: const TextStyle(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ),
-                        child: const Text('TAK', style: TextStyle(fontSize: 18)),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () => _answerQuestion(ref, false),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 64.0),
-                          backgroundColor: Colors.red[100],
-                        ),
-                        child: const Text('NIE', style: TextStyle(fontSize: 18)),
-                      ),
-                    ],
+                      );
+                    }),
                   ),
                 ],
               ),
@@ -136,7 +156,7 @@ class QuizPage extends ConsumerWidget {
     );
   }
 
-  void _answerQuestion(WidgetRef ref, bool answer) {
+  void _answerQuestion(WidgetRef ref, int answer) {
     ref.read(quizServiceProvider.notifier).answerQuestion(answer);
   }
 

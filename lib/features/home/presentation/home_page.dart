@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../quiz/data/quiz_repository.dart';
 import '../../quiz/presentation/quiz_page.dart';
 
 // Strona wyboru demonstracji
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final quizzes = ref.watch(quizRepositoryProvider).getAllQuizzes();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home page'),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Karta informacyjna
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
@@ -32,32 +37,27 @@ class HomePage extends StatelessWidget {
                     Text('Quiz demo', style: Theme.of(context).textTheme.titleLarge),
                     const SizedBox(height: 8),
                     Text(
-                      'Wybierz jednen z poniższych quizów.',
+                      'Wybierz jeden z poniższych quizów.',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 32),
-              _buildDemoCard(
-                context,
-                'Quiz o stolicach świata',
-                'Tylko odpowiedzi typu prawda/fałsz',
-                Icons.quiz,
-                () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const QuizPage()));
-                },
-              ),
-              const SizedBox(height: 8),
-              _buildDemoCard(
-                context,
-                'Quiz o planetach układu słonecznego',
-                '3 odpowiedzi, jedna poprawna',
-                Icons.face,
-                () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const QuizPage()));
-                },
-              ),
+
+              ...quizzes.map((quiz) => Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: _buildQuizCard(
+                  context,
+                  quiz,
+                      () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => QuizPage(quiz: quiz)),
+                    );
+                  },
+                ),
+              )),
             ],
           ),
         ),
@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
   }
 
   // Funkcja budująca kartę dla demonstracji
-  Widget _buildDemoCard(BuildContext context, String title, String description, IconData icon, VoidCallback onTap) {
+  Widget _buildQuizCard(BuildContext context, Quiz quiz, VoidCallback onTap) {
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 2,
@@ -76,15 +76,15 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Icon(icon, size: 36, color: Theme.of(context).colorScheme.primary),
+              Icon(Icons.quiz, size: 36, color: Theme.of(context).colorScheme.primary),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: Theme.of(context).textTheme.titleMedium),
+                    Text(quiz.title, style: Theme.of(context).textTheme.titleMedium),
                     const SizedBox(height: 4),
-                    Text(description, style: Theme.of(context).textTheme.bodySmall),
+                    Text(quiz.description, style: Theme.of(context).textTheme.bodySmall),
                   ],
                 ),
               ),

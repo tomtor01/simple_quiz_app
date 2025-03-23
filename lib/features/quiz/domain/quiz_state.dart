@@ -11,7 +11,7 @@ class QuizState with _$QuizState {
   const factory QuizState({
     required List<Question> questions,
     required int currentQuestionIndex,
-    required List<bool> userAnswers,
+    required List<int> userAnswers,
     required bool isCompleted,
   }) = _QuizState;
 
