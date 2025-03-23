@@ -9,8 +9,8 @@ class Quiz {
 }
 
 final List<Quiz> quizzes = [
-  Quiz(id: "quiz1", title: "Stolice świata", description: "Sprawdź swoją wiedzę o stolicach różnych krajów."),
-  Quiz(id: "quiz2", title: "Układ Słoneczny", description: "Czy wiesz wszystko o planetach naszego Układu Słonecznego?"),
+  Quiz(id: "quiz1", title: "Stolice świata", description: "Tylko odpowiedzi prawda/fałsz."),
+  Quiz(id: "quiz2", title: "Układ Słoneczny", description: "Trzy możliwe odpowiedzi, jedna poprawna."),
 ];
 
 class QuizRepository {

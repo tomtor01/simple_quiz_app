@@ -20,6 +20,12 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     ref.read(quizServiceProvider.notifier).loadQuestions(widget.quiz.id);
   }
 
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   ref.invalidate(quizServiceProvider);
+  // }
+
   @override
   Widget build(BuildContext context) {
     final quizState = ref.watch(quizServiceProvider);
@@ -39,64 +45,69 @@ class _QuizPageState extends ConsumerState<QuizPage> {
 
   // Ekran z pytaniem
   Widget _buildQuizScreen(BuildContext context, WidgetRef ref, QuizState state) {
+    if (state.questions.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     final currentQuestion = state.questions[state.currentQuestionIndex];
     final questionNumber = state.currentQuestionIndex + 1;
     final totalQuestions = state.questions.length;
 
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Pytanie $questionNumber z $totalQuestions', style: Theme.of(context).textTheme.titleMedium),
-          const SizedBox(height: 24),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 540),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Pytanie $questionNumber z $totalQuestions', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 24),
+            Card(
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    Text(
+                      currentQuestion.text,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 40),
 
-          Card(
-            elevation: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                children: [
-                  Text(
-                    currentQuestion.text,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 40),
-
-                  Column(
-                    children: List.generate(currentQuestion.answers.length, (index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () => _answerQuestion(ref, index),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              backgroundColor: Colors.blue[100],
-                            ),
-                            child: Text(
-                              currentQuestion.answers[index],
-                              style: const TextStyle(fontSize: 18),
-                              textAlign: TextAlign.center,
+                    Column(
+                      children: List.generate(currentQuestion.answers.length, (index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () => _answerQuestion(ref, [index]),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                backgroundColor: Colors.blue[100],
+                              ),
+                              child: Text(
+                                currentQuestion.answers[index],
+                                style: const TextStyle(fontSize: 18),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }),
-                  ),
-                ],
+                        );
+                      }),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-
-          const SizedBox(height: 32),
-          LinearProgressIndicator(
-            value: state.userAnswers.length / state.questions.length,
-            backgroundColor: Colors.grey[300],
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ],
+            const SizedBox(height: 32),
+            LinearProgressIndicator(
+              value: state.correctAnswersCount / state.questions.length,
+              backgroundColor: Colors.grey[300],
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -156,7 +167,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     );
   }
 
-  void _answerQuestion(WidgetRef ref, int answer) {
+  void _answerQuestion(WidgetRef ref, List<int> answer) {
     ref.read(quizServiceProvider.notifier).answerQuestion(answer);
   }
 

@@ -27,7 +27,7 @@ final Map<String, List<Question>> quizDatabase = {
     Question(text: 'Czy Warszawa jest stolicą Polski?', answers: ['Tak' , 'Nie'], correctAnswer: 0),
     Question(text: 'Czy Berlin jest stolicą Francji?', answers: ['Tak' , 'Nie'], correctAnswer: 1),
     Question(text: 'Czy Londyn jest stolicą Wielkiej Brytanii?', answers: ['Tak' , 'Nie'], correctAnswer: 0),
-    Question(text: 'Czy Madryt jest stolicą Hiszpanii?', answers: ['Tak' , 'Nie'], correctAnswer: 1),
+    Question(text: 'Czy Madryt jest stolicą Hiszpanii?', answers: ['Tak' , 'Nie'], correctAnswer: 0),
     Question(text: 'Czy Rzym jest stolicą Grecji?', answers: ['Tak' , 'Nie'], correctAnswer: 1),
     Question(text: 'Czy Paryż jest stolicą Francji?', answers: ['Tak' , 'Nie'], correctAnswer: 0),
     Question(text: 'Czy Lizbona jest stolicą Portugalii?', answers: ['Tak' , 'Nie'], correctAnswer: 0),
@@ -38,6 +38,7 @@ final Map<String, List<Question>> quizDatabase = {
   "quiz2": [
     Question(text: 'Którą w kolejności planetą (licząc od Słońca) jest Jowisz?', answers: ['4', '5', '6'], correctAnswer: 1),
     Question(text: 'Ile jest planet gazowych w Układzie Słonecznym?', answers: ['4', '5', '6'], correctAnswer: 0),
+    Question(text: 'Która planeta znajduje się bezpośrednio za Pasem Kuipera?', answers: ['Jowisz', 'Uran', 'żadna'], correctAnswer: 2)
   ],
 };
 

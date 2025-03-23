@@ -19,7 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$QuizState {
   List<Question> get questions => throw _privateConstructorUsedError;
   int get currentQuestionIndex => throw _privateConstructorUsedError;
-  List<int> get userAnswers => throw _privateConstructorUsedError;
+  List<List<int>> get userAnswers => throw _privateConstructorUsedError;
   bool get isCompleted => throw _privateConstructorUsedError;
 
   /// Create a copy of QuizState
@@ -37,7 +37,7 @@ abstract class $QuizStateCopyWith<$Res> {
   $Res call({
     List<Question> questions,
     int currentQuestionIndex,
-    List<int> userAnswers,
+    List<List<int>> userAnswers,
     bool isCompleted,
   });
 }
@@ -78,7 +78,7 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
                 null == userAnswers
                     ? _value.userAnswers
                     : userAnswers // ignore: cast_nullable_to_non_nullable
-                        as List<int>,
+                        as List<List<int>>,
             isCompleted:
                 null == isCompleted
                     ? _value.isCompleted
@@ -102,7 +102,7 @@ abstract class _$$QuizStateImplCopyWith<$Res>
   $Res call({
     List<Question> questions,
     int currentQuestionIndex,
-    List<int> userAnswers,
+    List<List<int>> userAnswers,
     bool isCompleted,
   });
 }
@@ -142,7 +142,7 @@ class __$$QuizStateImplCopyWithImpl<$Res>
             null == userAnswers
                 ? _value._userAnswers
                 : userAnswers // ignore: cast_nullable_to_non_nullable
-                    as List<int>,
+                    as List<List<int>>,
         isCompleted:
             null == isCompleted
                 ? _value.isCompleted
@@ -159,7 +159,7 @@ class _$QuizStateImpl extends _QuizState {
   const _$QuizStateImpl({
     required final List<Question> questions,
     required this.currentQuestionIndex,
-    required final List<int> userAnswers,
+    required final List<List<int>> userAnswers,
     required this.isCompleted,
   }) : _questions = questions,
        _userAnswers = userAnswers,
@@ -175,9 +175,9 @@ class _$QuizStateImpl extends _QuizState {
 
   @override
   final int currentQuestionIndex;
-  final List<int> _userAnswers;
+  final List<List<int>> _userAnswers;
   @override
-  List<int> get userAnswers {
+  List<List<int>> get userAnswers {
     if (_userAnswers is EqualUnmodifiableListView) return _userAnswers;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_userAnswers);
@@ -232,7 +232,7 @@ abstract class _QuizState extends QuizState {
   const factory _QuizState({
     required final List<Question> questions,
     required final int currentQuestionIndex,
-    required final List<int> userAnswers,
+    required final List<List<int>> userAnswers,
     required final bool isCompleted,
   }) = _$QuizStateImpl;
   const _QuizState._() : super._();
@@ -242,7 +242,7 @@ abstract class _QuizState extends QuizState {
   @override
   int get currentQuestionIndex;
   @override
-  List<int> get userAnswers;
+  List<List<int>> get userAnswers;
   @override
   bool get isCompleted;
 

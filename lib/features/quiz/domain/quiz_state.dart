@@ -11,7 +11,7 @@ class QuizState with _$QuizState {
   const factory QuizState({
     required List<Question> questions,
     required int currentQuestionIndex,
-    required List<int> userAnswers,
+    required List<List<int>> userAnswers,
     required bool isCompleted,
   }) = _QuizState;
 
@@ -19,7 +19,7 @@ class QuizState with _$QuizState {
   int get correctAnswersCount {
     int count = 0;
     for (int i = 0; i < userAnswers.length; i++) {
-      if (userAnswers[i] == questions[i].correctAnswer) {
+      if (userAnswers[i].isNotEmpty && userAnswers[i].first == questions[i].correctAnswer) {
         count++;
       }
     }
