@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$QuizState {
+  String get quizId => throw _privateConstructorUsedError;
   List<Question> get questions => throw _privateConstructorUsedError;
   int get currentQuestionIndex => throw _privateConstructorUsedError;
   List<List<int>> get userAnswers => throw _privateConstructorUsedError;
@@ -35,6 +36,7 @@ abstract class $QuizStateCopyWith<$Res> {
       _$QuizStateCopyWithImpl<$Res, QuizState>;
   @useResult
   $Res call({
+    String quizId,
     List<Question> questions,
     int currentQuestionIndex,
     List<List<int>> userAnswers,
@@ -57,6 +59,7 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? quizId = null,
     Object? questions = null,
     Object? currentQuestionIndex = null,
     Object? userAnswers = null,
@@ -64,6 +67,11 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
   }) {
     return _then(
       _value.copyWith(
+            quizId:
+                null == quizId
+                    ? _value.quizId
+                    : quizId // ignore: cast_nullable_to_non_nullable
+                        as String,
             questions:
                 null == questions
                     ? _value.questions
@@ -100,6 +108,7 @@ abstract class _$$QuizStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    String quizId,
     List<Question> questions,
     int currentQuestionIndex,
     List<List<int>> userAnswers,
@@ -121,6 +130,7 @@ class __$$QuizStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? quizId = null,
     Object? questions = null,
     Object? currentQuestionIndex = null,
     Object? userAnswers = null,
@@ -128,6 +138,11 @@ class __$$QuizStateImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$QuizStateImpl(
+        quizId:
+            null == quizId
+                ? _value.quizId
+                : quizId // ignore: cast_nullable_to_non_nullable
+                    as String,
         questions:
             null == questions
                 ? _value._questions
@@ -157,6 +172,7 @@ class __$$QuizStateImplCopyWithImpl<$Res>
 
 class _$QuizStateImpl extends _QuizState {
   const _$QuizStateImpl({
+    required this.quizId,
     required final List<Question> questions,
     required this.currentQuestionIndex,
     required final List<List<int>> userAnswers,
@@ -165,6 +181,8 @@ class _$QuizStateImpl extends _QuizState {
        _userAnswers = userAnswers,
        super._();
 
+  @override
+  final String quizId;
   final List<Question> _questions;
   @override
   List<Question> get questions {
@@ -188,7 +206,7 @@ class _$QuizStateImpl extends _QuizState {
 
   @override
   String toString() {
-    return 'QuizState(questions: $questions, currentQuestionIndex: $currentQuestionIndex, userAnswers: $userAnswers, isCompleted: $isCompleted)';
+    return 'QuizState(quizId: $quizId, questions: $questions, currentQuestionIndex: $currentQuestionIndex, userAnswers: $userAnswers, isCompleted: $isCompleted)';
   }
 
   @override
@@ -196,6 +214,7 @@ class _$QuizStateImpl extends _QuizState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuizStateImpl &&
+            (identical(other.quizId, quizId) || other.quizId == quizId) &&
             const DeepCollectionEquality().equals(
               other._questions,
               _questions,
@@ -213,6 +232,7 @@ class _$QuizStateImpl extends _QuizState {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    quizId,
     const DeepCollectionEquality().hash(_questions),
     currentQuestionIndex,
     const DeepCollectionEquality().hash(_userAnswers),
@@ -230,6 +250,7 @@ class _$QuizStateImpl extends _QuizState {
 
 abstract class _QuizState extends QuizState {
   const factory _QuizState({
+    required final String quizId,
     required final List<Question> questions,
     required final int currentQuestionIndex,
     required final List<List<int>> userAnswers,
@@ -237,6 +258,8 @@ abstract class _QuizState extends QuizState {
   }) = _$QuizStateImpl;
   const _QuizState._() : super._();
 
+  @override
+  String get quizId;
   @override
   List<Question> get questions;
   @override

@@ -37,8 +37,8 @@ final Map<String, List<Question>> quizDatabase = {
   ],
   "quiz2": [
     Question(text: 'Którą w kolejności planetą (licząc od Słońca) jest Jowisz?', answers: ['4', '5', '6'], correctAnswer: 1),
-    Question(text: 'Ile jest planet gazowych w Układzie Słonecznym?', answers: ['4', '5', '6'], correctAnswer: 0),
-    Question(text: 'Która planeta znajduje się bezpośrednio za Pasem Kuipera?', answers: ['Jowisz', 'Uran', 'żadna'], correctAnswer: 2)
+    Question(text: 'Ile jest gazowych olbrzymów w Układzie Słonecznym?', answers: ['4', '5', '6'], correctAnswer: 0),
+    Question(text: 'Która planeta znajduje się bezpośrednio za Pasem Kuipera?', answers: ['Jowisz', 'Uran', 'Żadna'], correctAnswer: 2)
   ],
 };
 

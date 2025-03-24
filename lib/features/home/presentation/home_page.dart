@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../quiz/app/quiz_service.dart';
 import '../../quiz/data/quiz_repository.dart';
 import '../../quiz/presentation/quiz_page.dart';
 
 // Strona wyboru demonstracji
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,20 +44,32 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 32),
-
-              ...quizzes.map((quiz) => Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: _buildQuizCard(
-                  context,
-                  quiz,
-                      () {
-                    Navigator.push(
+              ListView.builder(
+                shrinkWrap: true,
+                //physics: const NeverScrollableScrollPhysics(),
+                itemCount: quizzes.length,
+                itemBuilder: (context, index) {
+                  final quiz = quizzes[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: _buildQuizCard(
                       context,
-                      MaterialPageRoute(builder: (context) => QuizPage(quiz: quiz)),
-                    );
-                  },
-                ),
-              )),
+                      quiz,
+                          () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => QuizPage(quiz: quiz)),
+                        ).then((_) {
+                          if (ref.read(quizServiceProvider).isCompleted) {
+                            ref.read(quizServiceProvider.notifier).restartQuiz();
+                          }
+                        }
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

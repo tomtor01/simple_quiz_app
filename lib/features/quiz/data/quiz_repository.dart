@@ -19,7 +19,7 @@ class QuizRepository {
   }
 
   Quiz? getQuizById(String quizId) {
-    return quizzes.firstWhere((quiz) => quiz.id == quizId, orElse: () => Quiz(id: "unknown", title: "Nieznany quiz", description: "Brak opisu"));
+    return quizzes.firstWhere((quiz) => quiz.id == quizId, orElse: () => Quiz(id: "unknown", title: "unknown quiz", description: ""));
   }
 }
 

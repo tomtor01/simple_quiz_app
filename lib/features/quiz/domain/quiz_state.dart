@@ -9,6 +9,7 @@ class QuizState with _$QuizState {
   const QuizState._();
 
   const factory QuizState({
+    required String quizId,
     required List<Question> questions,
     required int currentQuestionIndex,
     required List<List<int>> userAnswers,

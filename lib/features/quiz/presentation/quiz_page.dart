@@ -17,7 +17,9 @@ class _QuizPageState extends ConsumerState<QuizPage> {
   @override
   void initState() {
     super.initState();
-    ref.read(quizServiceProvider.notifier).loadQuestions(widget.quiz.id);
+    Future.microtask(() {
+      ref.read(quizServiceProvider.notifier).loadQuestions(widget.quiz.id);
+    });
   }
 
   // @override
@@ -48,7 +50,6 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     if (state.questions.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
-
     final currentQuestion = state.questions[state.currentQuestionIndex];
     final questionNumber = state.currentQuestionIndex + 1;
     final totalQuestions = state.questions.length;
@@ -73,7 +74,6 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 40),
-
                     Column(
                       children: List.generate(currentQuestion.answers.length, (index) {
                         return Padding(
@@ -95,6 +95,13 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                           ),
                         );
                       }),
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton.icon(
+                      onPressed: () => _restartQuiz(ref),
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Zacznij od początku'),
+                      style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24)),
                     ),
                   ],
                 ),
@@ -156,6 +163,14 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                     onPressed: () => _restartQuiz(ref),
                     icon: const Icon(Icons.refresh),
                     label: const Text('Spróbuj ponownie'),
+                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24)),
+                  ),
+                  const SizedBox(height: 16),
+
+                  ElevatedButton.icon(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.home),
+                    label: const Text('Powrót'),
                     style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24)),
                   ),
                 ],
